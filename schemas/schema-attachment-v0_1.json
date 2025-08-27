@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gg095.net/schemas/schema-attachment-v0_1.json",
+  "title": "C.L.A.R.A. Attachment JSON (v0.1)",
+  "description": "Minimal export for LMS/email attachments – contains only weekly totals, score, and consent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "export_type", "subject", "week", "generated_at"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "export_type": {
+      "type": "string",
+      "const": "attachment_v01"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alias", "consent"],
+      "properties": {
+        "alias": { "type": "string", "minLength": 1 },
+        "consent": { "type": "boolean" }
+      }
+    },
+    "week": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_iso", "end_iso", "total_minutes", "ai_score"],
+      "properties": {
+        "start_iso": { "type": "string", "format": "date" },
+        "end_iso": { "type": "string", "format": "date" },
+        "total_minutes": { "type": "integer", "minimum": 0 },
+        "ai_score": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

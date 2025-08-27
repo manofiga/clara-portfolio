@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft-07/2020-12/schema",
+  "title": "Responsible AI Portfolio JSON",
+  "type": "object",
+  "properties": {
+    "version": { "const": "0.1" },
+    "alias": { "type": "string", "minLength": 1 },
+    "consent": { "type": "boolean" },
+    "friendly": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "week_start": { "type": "string" },
+    "week_end": { "type": "string" },
+    "totals": {
+      "type": "object",
+      "properties": {
+        "minutes": { "type": "number" },
+        "by_domain": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        }
+      },
+      "required": ["minutes"]
+    },
+    "score": { "type": "number" },
+    "most_active_day": {
+      "type": "object",
+      "properties": {
+        "iso": { "type": "string" },
+        "minutes": { "type": "number" }
+      },
+      "required": ["iso", "minutes"]
+    },
+    "change_vs_prev_week_pct": { "type": "number" },
+    "streak_weeks": { "type": "number" },
+    "badge": { "type": "string" },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "created_at": { "type": "string" },
+        "device_local_only": { "type": "boolean" },
+        "extension_version": { "type": "string" }
+      }
+    },
+    "weekly_breakdown": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "day": { "type": "string" },
+          "minutes": { "type": "number" }
+        },
+        "required": ["day", "minutes"]
+      }
+    }
+  },
+  "required": ["version", "alias", "consent", "totals"]
+}
