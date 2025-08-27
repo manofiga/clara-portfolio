@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>C.L.A.R.A. — Dashboard moved</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg:#0b1020; --card:#0f1730; --line:#1b2440; --ink:#e8ecf8; --muted:#a7b1c7; --brand:#7aa2ff;
+      --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#ffffff; --card:#f8fafc; --line:#e5e7eb; --ink:#171717; --muted:#6b7280; --brand:#3a7afe; --shadow:0 10px 30px rgba(0,0,0,.08); }
+    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;}
+    .wrap{display:grid;place-items:center;min-height:100vh;padding:24px}
+    .card{max-width:560px;width:100%;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    h1{margin:0 0 6px;font-size:18px}
+    p{margin:8px 0;color:var(--muted)}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .btn{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:10px;cursor:pointer}
+    .btn-primary{background:var(--brand);border-color:transparent;color:#fff}
+    code{background:rgba(125,125,125,.12);padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Dashboard has moved</h1>
+      <p>This page is no longer used. The <strong>only</strong> dashboard is the toolbar popup.</p>
+      <p>Click the extension icon in the Chrome toolbar to open it.</p>
+      <div class="row">
+        <button class="btn" id="how">Where’s the icon?</button>
+        <button class="btn btn-primary" id="manage">Manage extension</button>
+      </div>
+      <p style="margin-top:12px">If you reached this page from a bookmark, please update it. The popup file is <code>popup.html</code>.</p>
+    </div>
+  </div>
+  <script>
+    document.getElementById('how').onclick = () => {
+      alert('Look for the “puzzle” icon in Chrome’s toolbar, pin “C.L.A.R.A.”, then click it to open the popup dashboard.');
+    };
+    document.getElementById('manage').onclick = () => {
+      chrome.runtime.openOptionsPage ? chrome.runtime.openOptionsPage() : chrome.runtime.sendMessage({});
+      try { chrome.tabs.create({ url: "chrome://extensions/?id=" + chrome.runtime.id }); } catch {}
+    };
+  </script>
+</body>
+</html>

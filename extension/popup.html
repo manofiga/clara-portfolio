@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <title>C.L.A.R.A.</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    (function () {
+      try {
+        var pref = localStorage.getItem('aiu-themePref') || 'system';
+        document.documentElement.setAttribute('data-theme', pref);
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // set body color-scheme ASAP so form controls render correctly
+        document.addEventListener('DOMContentLoaded', function () {
+          document.body.setAttribute(
+            'data-color-scheme',
+            pref === 'system' ? (prefersDark ? 'dark' : 'light') : pref
+          );
+        });
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="popup">
+  <main>
+
+    <!-- Top tabs -->
+    <div class="topbar sticky-top">
+      <nav class="tabs" id="tabs" role="tablist" aria-label="Views">
+        <button role="tab" aria-selected="false" aria-controls="tab-report"   data-tab="report"   title="Report (1)">Report</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-logs"     data-tab="logs"     title="Logs (2)">Logs</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-rules"    data-tab="rules"    title="Rules (3)">Rules</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-settings" data-tab="settings" title="Settings (4)">Settings</button>
+        <button id="tabsBack" class="ghost right" type="button" title="Back to Dashboard" style="display:none">← Back</button>
+      </nav>
+
+        <!-- NEW brand mark -->
+        <div id="brandMark" aria-hidden="true" title="C.L.A.R.A.">C.L.A.R.A.</div>
+    </div>
+
+    <!-- Header (live status) -->
+    <div class="header card tight" id="header">
+      <div class="header-line">
+        <div class="muted" id="liveStatus" aria-live="polite">Tracking: —</div>
+      </div>
+
+      <div id="contextHint" class="row" style="display:none; margin-top:6px">
+        <span id="hintText" class="hint">Not tracking this site.</span>
+        <button id="addRuleFromHere" class="ghost" type="button" aria-label="Add rule for current domain">Add rule for this domain</button>
+      </div>
+      <div id="multiTabHint" class="row hint" style="display:none; margin-top:4px">
+        Tracking only your active tab. Background AI tabs are paused.
+      </div>
+    </div>
+
+    <!-- DASHBOARD (landing) -->
+    <section id="dashboardSection" aria-label="Dashboard">
+      <div class="card compact">
+        <div class="stats stats-compact">
+          <div class="stat num-center">
+            <div class="stat-num" id="todayCount">0</div>
+            <div class="stat-label">Today</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="weekCount">0</div>
+            <div class="stat-label">Week</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="totalCount">0</div>
+            <div class="stat-label">Total</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card compact">
+        <div class="chart">
+          <canvas id="spark" class="theme-surface" aria-label="Last 7 days sparkline"></canvas>
+        </div>
+        <div class="chart-subtle">Avg/day • last 7 days: <span id="avg7">—</span></div>
+      </div>
+
+      <div class="card compact">
+        <div class="chart">
+          <canvas id="bar7" class="theme-surface" aria-label="Last 7 days bars"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPORT -->
+    <section id="tab-report" class="tab-page" role="tabpanel" aria-labelledby="tab-report-btn">
+      <div class="card">
+        <div class="card-title">
+          <span>Weekly AI Report Card</span>
+          <div class="row">
+            <button id="scoreInfoBtn" class="ghost" type="button" title="How AI Score is calculated">AI Score (i)</button>
+            <span class="hint" id="reportRange">This week</span>
+            <button id="exportReportBtn"   type="button">Export Report</button>
+            <button id="exportPortfolioBtn" type="button">Export Portfolio JSON</button>
+            <button id="exportWeeklyBtn"   type="button">Export Weekly Portfolio JSON</button>
+            <button id="exportAttachmentBtn" type="button">Export Attachment JSON</button>
+            <button id="exportAnalyticsBtn"  type="button">Export Analytics JSON</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat num-center">
+            <div class="stat-num" id="reportTotal">—</div>
+            <div class="stat-label">Total this week</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="reportTop">—</div>
+            <div class="stat-label">Top AI tool</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="reportScore">—</div>
+            <div class="stat-label">AI Score</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card compact">
+        <div class="chart">
+          <canvas id="reportBar" class="theme-surface" aria-label="Daily usage this week"></canvas>
+        </div>
+        <div class="chart-subtle">Daily usage this week</div>
+      </div>
+    </section>
+
+    <!-- LOGS -->
+    <section id="tab-logs" class="tab-page" role="tabpanel" aria-labelledby="tab-logs-btn">
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <div class="row">
+            <label for="fromDate" class="sr-only">From date</label>
+            <input id="fromDate" type="date" />
+            <label for="toDate" class="sr-only">To date</label>
+            <input id="toDate" type="date" />
+            <label for="filterDomain" class="sr-only">Filter by domain</label>
+            <input id="filterDomain" type="text" placeholder="Filter by domain" />
+            <button id="applyFilter" type="button">Apply</button>
+          </div>
+          <div class="row">
+            <button id="exportCsvBtn" type="button" aria-label="Export logs as CSV">Export CSV</button>
+          </div>
+        </div>
+
+        <div id="logsEmpty" class="muted" style="display:none;margin-top:8px">
+          You haven’t visited any AI sites yet today. Once you do, logs will appear here.
+        </div>
+
+        <table id="logsTable" class="table" style="margin-top:6px">
+          <thead>
+          <tr><th>When</th><th>Site</th><th class="right">Duration</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="row" style="justify-content:center;margin-top:6px">
+          <button id="loadMoreBtn" style="display:none" type="button">Load more</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RULES -->
+    <section id="tab-rules" class="tab-page" role="tabpanel">
+      <div class="card">
+        <div class="card-title">
+          <span>Monitored AI Sites</span>
+          <a class="hint" href="#" id="whyTracked">Why am I tracked?</a>
+        </div>
+        <ul id="rulesList" class="chips" aria-label="Current rules"></ul>
+        <div class="row" style="margin-top:6px">
+          <label for="newRule" class="sr-only">Add a rule</label>
+          <input id="newRule" type="text" placeholder="example.com or pattern (optional)" />
+          <button id="addRuleBtn" type="button">Add</button>
+          <button id="resetRulesBtn" class="ghost" type="button">Reset Defaults</button>
+          <button id="quickFromHistory" class="ghost" type="button">Quick add from current tab…</button>
+        </div>
+        <p class="hint">
+          <strong>Domain rules</strong> match the domain or its subdomains only.
+          Patterns (with “/” or “*”) use full-URL contains matching (legacy).
+        </p>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="tab-settings" class="tab-page" role="tabpanel">
+      <div class="card">
+        <div class="card-title"><span>Data</span></div>
+        <p class="hint" style="margin:2px 0 8px">Your data stays 100% local.</p>
+        <div class="row">
+          <button id="downloadJsonBtn" type="button">Download JSON Backup</button>
+          <button id="importJsonBtn" type="button">Import JSON</button>
+          <button id="clearAllBtn" class="danger" type="button">Clear All</button>
+          <button id="aboutBtn" type="button">About & Policy</button>
+        </div>
+        <!-- Pilot pages quick links -->
+<div class="row" style="gap:8px; margin-top:8px">
+  <button id="btnOpenStudent" type="button" title="Open Student dashboard in a new tab">Open Student page</button>
+  <button id="btnOpenTeacher" type="button" title="Open Teacher dashboard in a new tab">Open Teacher page</button>
+</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Badge</span></div>
+        <div class="row">
+          <label for="badgeMode">Badge mode</label>
+          <select id="badgeMode" aria-label="Badge mode">
+            <option value="minutes">Minutes today (default)</option>
+            <option value="onoff">ON/OFF</option>
+            <option value="none">Hidden</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Discoverability tip for context menu -->
+      <div class="card" id="ctxTip" style="display:none">
+        <div class="card-title"><span>Tip: Quick Actions</span></div>
+        <p class="hint">
+          Right-click any page to: <em>Add this site</em>, <em>Pause 15m/1h/Today</em>, or <em>Resume</em>.
+        </p>
+        <div class="row">
+          <button id="dismissCtxTip" class="ghost" type="button">Got it</button>
+        </div>
+      </div>
+
+      <div class="footer">v1.0.7 • Local MVP</div>
+    </section>
+
+    <!-- Bottom controls -->
+    <div class="footer-controls card tight compact sticky-bottom" aria-label="Controls">
+      <div class="row wrap">
+        <button class="ghost" id="pause15" type="button">Pause 15m</button>
+        <button class="ghost" id="pause60" type="button">Pause 1h</button>
+        <button class="ghost" id="pauseToday" type="button">Pause Today</button>
+        <button class="ghost" id="resumeBtn" type="button">Resume</button>
+        <button class="ghost" id="resetTodayBtn" title="Reset today's timer only" type="button">Reset Today</button>
+
+        <div id="themeRow" class="row right">
+  <label class="muted small" for="themeSelect">Theme</label>
+  <select id="themeSelect" aria-label="Theme">
+    <option value="system">System</option>
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+</div>
+    </div>
+
+  </main>
+
+  <!-- Help modal: Why Tracked -->
+  <div id="whyModal" class="modal" aria-hidden="true">
+    <div class="modal-overlay" data-close="whyModal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="whyTitle">
+      <div class="modal-title" id="whyTitle">Why am I tracked?</div>
+      <div class="modal-body" id="whyBody"></div>
+      <div class="modal-actions">
+        <button class="ghost" data-close="whyModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+<div id="aboutModal" class="modal" aria-hidden="true">
+  <div class="modal-overlay" data-close="aboutModal"></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <div class="modal-title" id="aboutTitle">About & Policy</div>
+    <div class="modal-body" id="aboutBody">
+      <p><strong>What we track:</strong> active time on AI sites you list in <em>Rules</em>.</p>
+      <p><strong>What we don’t track:</strong> page contents, prompts, or keystrokes.</p>
+      <p><strong>Storage:</strong> 100% local; nothing leaves your device unless you export.</p>
+      <p><strong>Consent:</strong> exports require your explicit action.</p>
+      <p><strong>EU alignment:</strong> data minimization, purpose limitation, user control.</p>
+      <p class="hint">Version v1.0.8 • Local MVP</p>
+    </div>
+    <div class="modal-actions">
+      <button class="ghost" data-close="aboutModal">Close</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Info modal: AI Score -->
+  <div id="scoreModal" class="modal" aria-hidden="true">
+    <div class="modal-overlay" data-close="scoreModal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="scoreTitle">
+      <div class="modal-title" id="scoreTitle">AI Score – How it works</div>
+      <div class="modal-body" id="scoreBody">
+        <p>Your weekly hours → a score from 0–100:</p>
+        <ul>
+          <li><strong>&lt; 5h/week</strong> = <strong>100</strong></li>
+          <li><strong>5–15h/week</strong> = scales <strong>80 → 60</strong></li>
+          <li><strong>15–20h/week</strong> = scales <strong>60 → 50</strong></li>
+          <li><strong>&gt; 20h/week</strong> = decreases 2 points/hour (floor <strong>20</strong>)</li>
+        </ul>
+        <p class="hint">This is a simple MVP rubric. We’ll tune it based on feedback.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost" data-close="scoreModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

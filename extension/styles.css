@@ -1,0 +1,220 @@
+/* Minimal styles + theme tokens */
+
+:root {
+  --bg: #ffffff;
+  --card: #f8fafc;
+  --ink: #111827;
+  --ink-muted: #6b7280;
+  --line: #e5e7eb;
+  --chart-bar: #9bb3ff;
+  --chart-line: #5b82ff;   /* sparkline in popup */
+  --brand: #3a7afe;
+}
+
+/* Dark theme overrides */
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  --bg: #0b1220;
+  --card: #151b2c;
+  --ink: #e5e7eb;
+  --ink-muted: #9ca3af;
+  --line: #263148;
+  --chart-bar: #6b8cff;
+  --chart-line: #7aa2ff;
+  --brand: #7aa2ff;
+}
+
+/* Topbar now aligns tabs left, mark right */
+.topbar{display:flex;align-items:center;justify-content:space-between}
+
+/* Brand mark */
+#brandMark{
+  font-family:"Garet", system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  font-weight:700;
+  letter-spacing:.22em;
+  color:var(--ink);               /* <- flips with theme */
+  padding:2px 10px;
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:999px;
+  line-height:1;
+  user-select:none;
+  box-shadow:var(--shadow);
+}
+
+/* Let UA widgets (inputs/scrollbars) match theme */
+body { color-scheme: light; }
+body[data-color-scheme="dark"] { color-scheme: dark; }
+
+/* Basic reset */
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  margin:0; background:var(--bg); color:var(--ink);
+}
+.wrap, main.page { padding: 12px; max-width: 980px; margin: 0 auto; }
+
+/* When we're in the popup, constrain width for a clean layout */
+body.popup main { width: 620px; padding: 10px; }
+
+/* Cards */
+.card { background: var(--card); border-radius: 10px; padding: 12px; border: 1px solid var(--line); margin-bottom: 12px; }
+.card.compact { padding: 8px; }
+.card.tight { padding: 8px; }
+.card-title { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:6px; }
+
+/* Top tabs / header */
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+.tabs button { background: transparent; border: none; padding: 8px 10px; cursor: pointer; }
+.tabs button.active { border-bottom: 2px solid var(--brand); font-weight:700; }
+.header-line { display:flex; align-items:center; justify-content:space-between; }
+.header.paused { opacity: .8; }
+.tabs button {
+  background: transparent;
+  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  color: var(--ink);                  /* <- force readable text */
+}
+.tabs button.active {
+  border-bottom: 2px solid var(--brand);
+  font-weight: 700;
+  color: var(--ink);                  /* keep readable in both themes */
+}
+
+/* Sticky helpers (popup uses both) */
+.sticky-top { position: sticky; top: 0; z-index: 5; background: var(--bg); }
+.sticky-bottom { position: sticky; bottom: 0; z-index: 5; }
+
+/* Stats */
+.stats { display:flex; gap:8px; }
+.stats-compact .stat-num { font-size:16px; }
+.stat { flex:1; padding:8px; text-align:center; }
+.stat-num { font-weight:700; font-size:18px; }
+.num-center { display:flex; flex-direction:column; align-items:center; }
+
+/* Table */
+.table { width:100%; border-collapse: collapse; }
+.table th, .table td { padding:8px 6px; border-bottom: 1px solid var(--line); }
+.table th.right, .table td.right { text-align:right; }
+.right { text-align:right; }
+
+/* Buttons */
+.btn { padding:6px 10px; border-radius:6px; border:1px solid var(--line); background:transparent; cursor:pointer; }
+.btn.primary { background:var(--brand); color:white; border:none; }
+.btn.ghost { background:transparent; color:var(--ink-muted); }
+
+/* Inputs */
+input, select { padding:6px 8px; border-radius:6px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+
+/* Modal */
+.modal { display:none; position:fixed; inset:0; align-items:center; justify-content:center; }
+.modal.open { display:flex; }
+.modal-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.3); }
+.modal-card { position:relative; z-index:2; background:var(--card); padding:16px; border-radius:8px; width:90%; max-width:520px; }
+
+/* Small helpers */
+.row { display:flex; gap:8px; align-items:center; }
+.row.wrap { flex-wrap: wrap; }
+.chips { list-style:none; padding:0; margin:0; display:flex; gap:8px; flex-wrap:wrap; }
+.chip { padding:6px 8px; background:var(--card); border-radius:999px; border:1px solid var(--line); display:inline-flex; align-items:center; }
+.chip-x, .chip-remove { margin-left:8px; background:transparent; border:none; cursor:pointer; }
+.hint { color:var(--ink-muted); font-size:13px; }
+.small { font-size:12px; }
+.muted { color:var(--ink-muted); }
+.footer { padding:12px; text-align:center; color:var(--ink-muted); }
+.spacer { flex:1 1 auto; }
+
+/* Charts and code blocks */
+.chart { width:100%; }
+.theme-surface { background: var(--card); border-radius: 8px; }
+.chart-subtle { color:var(--ink-muted); font-size:12px; margin-top:4px; text-align:center; }
+.tile-title { font-weight:700; margin-bottom:6px; }
+.code { background: var(--card); border:1px solid var(--line); border-radius:8px; padding:10px; }
+
+/* Footer controls area (popup) */
+.footer-controls { background: var(--card); }
+
+/* Accessibility helpers used by popup */
+.sr-only {
+  position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
+}
+
+/* Teacher drop zone */
+.dropzone {
+  border: 2px dashed var(--line);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  color: var(--ink-muted);
+}
+.dropzone.dragover { border-color: var(--brand); color: var(--brand); }
+
+/* ==== THEME & TOKENS (add) ==== */
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  --bg: #0b1220;
+  --card: #151b2c;
+  --ink: #e5e7eb;
+  --ink-muted: #9ca3af;
+  --line: #263148;
+  --chart-bar: #6b8cff;
+  --brand: #7aa2ff;
+}
+
+/* Let the UA widgets (scrollbars, inputs) match theme */
+body { color-scheme: light; }
+body[data-color-scheme="dark"] { color-scheme: dark; }
+
+/* ==== COMPONENTS YOU USE IN POPUP (add) ==== */
+.header { background: var(--card); border:1px solid var(--line); border-radius:10px; padding:10px; margin-bottom:8px; }
+.header .muted { color: var(--ink-muted); }
+
+.card-title { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; font-weight:600; }
+
+.badge { padding:4px 8px; border-radius:999px; background:var(--card); border:1px solid var(--line); font-size:12px; color:var(--ink); }
+.badge.ghost { background:transparent; color:var(--ink-muted); }
+
+.hint { color:var(--ink-muted); font-size:13px; }
+.small { font-size:12px; }
+.muted { color:var(--ink-muted); }
+.right { margin-left:auto; }
+#themeRow { display:flex; align-items:center; gap:8px; }
+.spacer { flex:1 1 auto; }
+
+.sticky-top { position:sticky; top:0; z-index:5; }
+.sticky-bottom { position:sticky; bottom:0; z-index:5; }
+
+.footer-controls { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:8px; }
+
+/* Charts: give canvases predictable size */
+#spark    { width:100%; height:56px; display:block; }
+#bar7     { width:100%; height:120px; display:block; }
+#reportBar{ width:100%; height:220px; display:block; }
+
+/* Subtle chart surface */
+.theme-surface { background:transparent; border-radius:8px; }
+
+/* Stats compact row spacing */
+.stats-compact .stat-num { font-size:16px; }
+
+/* Chips + x button used in Rules */
+.chip { padding:6px 8px; background:var(--card); border-radius:999px; border:1px solid var(--line); display:inline-flex; align-items:center; }
+.chip-x { margin-left:8px; background:transparent; border:none; cursor:pointer; color:var(--ink-muted); }
+
+/* Drop zone (Teacher page) */
+.dropzone {
+  margin-top:10px; padding:22px; border:2px dashed var(--line); border-radius:10px;
+  background:rgba(0,0,0,0.02);
+}
+:root[data-theme="dark"] .dropzone { background:rgba(255,255,255,0.03); }
+.dropzone.dragover { border-color: var(--brand); background: rgba(58,122,254,0.06); }
+
+/* --- Garet (optional) --- */
+@font-face{
+  font-family:"Garet";
+  src:url("assets/fonts/garet.woff2") format("woff2");
+  font-display:swap;
+  font-weight:700; font-style:normal;
+}

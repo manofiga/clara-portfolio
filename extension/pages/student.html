@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <title>C.L.A.R.A. — Student</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script src="../theme.js"></script>
+</head>
+<body>
+  <main class="page">
+    <div class="card">
+      <div class="card-title">
+        <span>Student Portfolio</span>
+      </div>
+      <div class="row wrap" style="gap:8px; align-items:center">
+        <input id="file" type="file" accept="application/json" />
+        <button id="btnSample" class="btn">Load Sample</button>
+        <button id="btnDownloadJSON" class="btn" disabled>Download JSON</button>
+        <button id="btnCard" class="btn primary">Export Card (PNG)</button>
+        <span class="spacer"></span>
+        <span class="badge" id="fromTeacherBadge" style="display:none">Loaded from Teacher</span>
+        <span class="badge ghost">v0.1 JSON • Local‑only</span>
+      </div>
+    </div>
+
+    <div id="content" style="display:none">
+      <div class="card">
+        <div class="stats">
+          <div class="stat num-center">
+            <div class="stat-num" id="sTotal">—</div>
+            <div class="stat-label">Total this week</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="sTop">—</div>
+            <div class="stat-label">Top tool</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="sScore">—</div>
+            <div class="stat-label">AI Score</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="sMost">—</div>
+            <div class="stat-label">Most active day</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="sChange">—</div>
+            <div class="stat-label">Change vs prev</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="sStreak">—</div>
+            <div class="stat-label">Streak</div>
+          </div>
+          <div class="stat num-center">
+            <div class="stat-num" id="sBadge">—</div>
+            <div class="stat-label">Badge</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card compact">
+        <div class="tile-title" id="title">Week —</div>
+        <div class="chart">
+          <canvas id="bar" class="theme-surface" style="width:100%;height:260px" aria-label="Weekly breakdown"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tile-title">Raw JSON</div>
+        <pre id="raw" class="code" style="max-height:360px; overflow:auto"></pre>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer small muted">C.L.A.R.A. · Student page</footer>
+
+  <script src="student.js"></script>
+</body>
+</html>
