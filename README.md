@@ -51,7 +51,7 @@ We are seeking **partner schools, universities, and research teams** to test C.L
 
 ## 📬 Contact
 - Website: [clara.gg095.net](https://clara.gg095.net) *(coming soon)*  
-- Email: [hello@gg095.net](mailto:hello@gg095.net)  
+- Email: [hello@gg095.net](mailto:hello@gg095.net)  *(coming soon)*
 - Org: **GG095** (EU-based studio, focused on responsible AI tools)  
 
 ---
