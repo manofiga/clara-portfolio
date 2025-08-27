@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "0.1",
+  "alias": "student",
+  "consent": true,
+  "week_start": "2025-08-24",
+  "week_end": "2025-08-31",
+  "totals": {
+    "minutes": 109,
+    "by_domain": {
+      "gemini.google.com": 53,
+      "www.midjourney.com": 38,
+      "claude.ai": 9,
+      "chatgpt.com": 7,
+      "www.klingai.com": 2,
+      "app.klingai.com": 0,
+      "runwayml.com": 0,
+      "www.perplexity.ai": 0
+    }
+  },
+  "score": 100,
+  "most_active_day": {
+    "iso": "2025-08-24",
+    "minutes": 11
+  },
+  "change_vs_prev_week_pct": 81.7,
+  "streak_weeks": 2,
+  "badge": "Healthy",
+  "provenance": {
+    "created_at": "2025-08-27T13:46:38.631Z",
+    "device_local_only": true,
+    "extension_version": "1.0.8"
+  },
+  "weekly_breakdown": [
+    {
+      "day": "Mon",
+      "minutes": 11
+    },
+    {
+      "day": "Tue",
+      "minutes": 58
+    },
+    {
+      "day": "Wed",
+      "minutes": 40
+    },
+    {
+      "day": "Thu",
+      "minutes": 0
+    },
+    {
+      "day": "Fri",
+      "minutes": 0
+    },
+    {
+      "day": "Sat",
+      "minutes": 0
+    },
+    {
+      "day": "Sun",
+      "minutes": 0
+    }
+  ]
+}
